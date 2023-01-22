@@ -104,7 +104,7 @@ namespace Sample.DAL
             _dbSet.RemoveRange(entities);
         }
 
-        public async Task CommitsAsync(CancellationToken cancellationToken = default)
+        public async Task CommitAsync(CancellationToken cancellationToken = default)
             => await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

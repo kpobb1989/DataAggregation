@@ -61,7 +61,7 @@ namespace Sample.Function.Extensions
 
             repository.RemoveRange(dataToDelete);
 
-            await repository.CommitsAsync();
+            await repository.CommitAsync();
 
             dbEntities = await repository
                                     .Get(includeProperties: includeProperties)

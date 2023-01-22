@@ -21,6 +21,6 @@ namespace Sample.Abstractions.DAL.Interfaces
 
         void RemoveRange(IEnumerable<TEntity> entities);
 
-        Task CommitsAsync(CancellationToken cancellationToken = default);
+        Task CommitAsync(CancellationToken cancellationToken = default);
     }
 }
