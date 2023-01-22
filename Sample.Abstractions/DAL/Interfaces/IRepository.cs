@@ -4,7 +4,7 @@ namespace Sample.Abstractions.DAL.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : DbEntity
     {
-        IQueryable<TEntity> GetQueryable(
+        IQueryable<TEntity> Get(
                     Expression<Func<TEntity, bool>>? filter = null,
                     string includeProperties = "",
                     Expression<Func<TEntity, object>>? orderBy = null,

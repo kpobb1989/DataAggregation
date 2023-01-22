@@ -21,7 +21,7 @@ namespace Sample.Function.Extensions
             CancellationToken cancellationToken = default) where TEntity : RefreshableDbEntity
         {
             var dbEntities = await repository
-                                    .GetQueryable(includeProperties: includeProperties)
+                                    .Get(includeProperties: includeProperties)
                                     .ToListAsync(cancellationToken: cancellationToken);
 
             var dataToAdd = newData.GroupJoin(dbEntities, keySelector, keySelector, (entity, dbEntities) => (NewEntity: entity, DbEntities: dbEntities))
@@ -64,7 +64,7 @@ namespace Sample.Function.Extensions
             await repository.CommitsAsync();
 
             dbEntities = await repository
-                                    .GetQueryable(includeProperties: includeProperties)
+                                    .Get(includeProperties: includeProperties)
                                     .ToListAsync(cancellationToken: cancellationToken);
 
             return dbEntities;

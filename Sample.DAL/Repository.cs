@@ -17,7 +17,7 @@ namespace Sample.DAL
             _dbContext = dbContext;
             _dbSet = _dbContext.Set<TEntity>();
         }
-        public IQueryable<TEntity> GetQueryable(
+        public IQueryable<TEntity> Get(
             Expression<Func<TEntity, bool>>? filter = null,
             string includeProperties = "",
             Expression<Func<TEntity, object>>? orderBy = null,
@@ -76,7 +76,7 @@ namespace Sample.DAL
 
         public void Remove(Expression<Func<TEntity, bool>> filter)
         {
-            var entities = GetQueryable(filter);
+            var entities = Get(filter);
 
             RemoveRange(entities);
         }
