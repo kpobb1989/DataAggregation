@@ -13,7 +13,7 @@ namespace Sample.Function.Extensions
 {
     public static class RepositoryExtensions
     {
-        public static async Task<IEnumerable<TEntity>> RefreshAsync<TEntity, TKey>(
+        public static async Task RefreshAsync<TEntity, TKey>(
             this IRepository<TEntity> repository,
             IEnumerable<TEntity> newData,
             Func<TEntity, TKey> keySelector,
@@ -62,12 +62,6 @@ namespace Sample.Function.Extensions
             repository.RemoveRange(dataToDelete);
 
             await repository.CommitAsync();
-
-            dbEntities = await repository
-                                    .Get(includeProperties: includeProperties)
-                                    .ToListAsync(cancellationToken: cancellationToken);
-
-            return dbEntities;
         }
     }
 }

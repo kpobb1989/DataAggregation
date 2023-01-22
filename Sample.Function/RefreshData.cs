@@ -9,6 +9,7 @@ using Sample.Function.Extensions;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
+using Microsoft.EntityFrameworkCore;
 
 namespace Sample.Function
 {
@@ -58,11 +59,13 @@ namespace Sample.Function
 
                 log.LogInformation($"Found {licenses.Count()} unique license(s) from the API");
 
-                licenses = await _unitOfWork
+                await _unitOfWork
                     .Licenses()
                     .RefreshAsync(licenses, s => s.Name, cancellationToken: cancellationToken);
 
-                log.LogInformation($"Refreshed {licenses.Count()} license(s) in the DB");
+                licenses = await _unitOfWork.Licenses().Get(dbLicense => licenses.Select(s => s.Name).Contains(dbLicense.Name)).ToListAsync(cancellationToken);
+
+                log.LogInformation($"Refreshed {await _unitOfWork.Licenses().CountAsync()} license(s) in the DB");
 
                 var packages = response.Data
                     .GroupBy(s => (s.Source, s.Name, s.Version), (key, values) => (Key: key, Licenses: values))
@@ -80,11 +83,11 @@ namespace Sample.Function
 
                 log.LogInformation($"Found {packages.Count()} unique package(s) from the API");
 
-                packages = await _unitOfWork
+                await _unitOfWork
                     .Packages()
                     .RefreshAsync(packages, s => (s.Source, s.Name, s.Version), "Licenses", cancellationToken: cancellationToken);
 
-                log.LogInformation($"Refreshed {packages.Count()} package(s) in the DB");
+                log.LogInformation($"Refreshed {await _unitOfWork.Packages().CountAsync()} package(s) in the DB");
 
             } while (pageNumber <= totalPages);
 

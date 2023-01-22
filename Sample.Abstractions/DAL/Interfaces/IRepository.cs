@@ -21,6 +21,8 @@ namespace Sample.Abstractions.DAL.Interfaces
 
         void RemoveRange(IEnumerable<TEntity> entities);
 
+        Task<int> CountAsync(Expression<Func<TEntity, bool>>? filter = null);
+
         Task CommitAsync(CancellationToken cancellationToken = default);
     }
 }
